@@ -19,6 +19,8 @@ model User {
   updated_at DateTime? @default(now())
 
   @@map ("users")
+  registers Register[]
+  categories Category[]
 }
 
 model Category{
@@ -27,11 +29,15 @@ model Category{
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
+  user User @relation(fields: [user_id], references: [id])
+
   @@map("categories")
-  products Product[]
+  registers Register[]
+  user_id String
+  
   }
 
-model Product{
+model Register{
   id String @id @default(uuid())
   name String
   description String
@@ -41,8 +47,10 @@ model Product{
   updated_at DateTime? @default(now())
 
     category Category @relation(fields: [category_id], references: [id])
+    user User @relation(fields: [user_id], references: [id])
 
-  @@map("products")
+  @@map("registers")
   category_id String
+  user_id String
 }
 
